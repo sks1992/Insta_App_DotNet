@@ -32,7 +32,7 @@ namespace Insta_App.DataAccess.Repository
                 _response.ErrorMessage = "UserName Already Exist";
                 return _response;
             }
-            if (createUserDTO.UserEmail == "" || createUserDTO.UserName == "" || createUserDTO.UserPassword == "" || createUserDTO.UserImage == "" || createUserDTO.UserBio == "") {
+            if (createUserDTO.UserEmail == "" || createUserDTO.UserName == "" || createUserDTO.UserPassword == "" || createUserDTO.UserImage == "") {
                 _response.IsSuccess = false;
                 _response.ErrorMessage = "Please Fill all values";
                 return _response;
@@ -50,7 +50,6 @@ namespace Insta_App.DataAccess.Repository
                 UserName = createUserDTO.UserName.ToLower(),
                 UserEmail = createUserDTO.UserEmail,
                 UserPassword = createUserDTO.UserPassword,
-                UserBio = createUserDTO.UserBio,
                 UserImage = uploadedFilePath,
             };
 
@@ -74,7 +73,7 @@ namespace Insta_App.DataAccess.Repository
                 return response;
             }
             //get user from db
-            var user = await _db.User.FirstOrDefaultAsync(x => x.UserName == loginUser.UserName.ToLower() && x.UserPassword == loginUser.Password);
+            var user = await _db.User.FirstOrDefaultAsync(x => x.UserName == loginUser.UserName.ToLower());
             // if user is null ?
             if (user == null)
             {
@@ -84,6 +83,17 @@ namespace Insta_App.DataAccess.Repository
                     ErrorMessage = "UserName Not Exist. Please register first!"
                 };
                 return response;
+            }
+
+            if ( user.UserPassword != loginUser.Password)
+            {
+                response = new()
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Password Is InCorrect. Please Fill Correct Password."
+                };
+                return response;
+
             }
 
             byte[] imageBytes = File.ReadAllBytes(user.UserImage!);
@@ -120,7 +130,6 @@ namespace Insta_App.DataAccess.Repository
                 UserImage = base64,
                 IsSuccess = true,
                 UserName = user.UserName,
-                UserBio = user.UserBio
             };
             return response;
         }

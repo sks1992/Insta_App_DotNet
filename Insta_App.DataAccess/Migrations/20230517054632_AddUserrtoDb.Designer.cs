@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Insta_App.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230513065309_AddUserToDb")]
-    partial class AddUserToDb
+    [Migration("20230517054632_AddUserrtoDb")]
+    partial class AddUserrtoDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,9 +34,6 @@ namespace Insta_App.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserBio")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UserCreatedAt")

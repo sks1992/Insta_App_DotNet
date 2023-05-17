@@ -11,8 +11,6 @@ namespace Insta_App.Models.Dto
         [Required]
         public string UserPassword { get; set; }
         [Required]
-        public string UserBio { get; set; }
-        [Required]
         public string UserImage { get; set; }
     }
 }

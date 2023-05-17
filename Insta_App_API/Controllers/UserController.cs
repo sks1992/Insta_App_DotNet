@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Insta_App_API.Controllers
 {
-    [Route("api/")]
+    [Route("api")]
     [ApiController]
     public class UserController : Controller
     {

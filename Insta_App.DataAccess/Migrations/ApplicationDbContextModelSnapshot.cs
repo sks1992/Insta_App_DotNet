@@ -33,9 +33,6 @@ namespace Insta_App.DataAccess.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserBio")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UserCreatedAt")
                         .HasColumnType("datetime2");
 

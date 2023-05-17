@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Insta_App.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUserToDb : Migration
+    public partial class AddUserrtoDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,6 @@ namespace Insta_App.DataAccess.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true)
