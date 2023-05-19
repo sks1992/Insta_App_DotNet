@@ -42,7 +42,7 @@ namespace Insta_App.DataAccess.Repository
             if (createUserDTO.UserImage != null)
             {
                 byte[] fileByteArray = System.Convert.FromBase64String(createUserDTO.UserImage);
-                System.IO.File.WriteAllBytes(uploadedFilePath, fileByteArray);
+                File.WriteAllBytes(uploadedFilePath, fileByteArray);
             }
 
             User userData = new User()

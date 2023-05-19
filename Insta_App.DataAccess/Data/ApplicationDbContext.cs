@@ -11,5 +11,6 @@ namespace Insta_App.DataAccess.Data
             
         }
         public DbSet<User> User { get; set; }
+        public DbSet<Posts> Posts { get; set; }
     }
 }

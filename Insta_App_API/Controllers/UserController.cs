@@ -1,11 +1,10 @@
 ﻿using Insta_App.DataAccess.Repository.IRepository;
-using Insta_App.Models;
 using Insta_App.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Insta_App_API.Controllers
 {
-    [Route("api")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : Controller
     {
@@ -15,6 +14,7 @@ namespace Insta_App_API.Controllers
             _userRepository = userRepository;
         }
         [HttpPost("registerUser")]
+       // [Authorize]
         public async Task<IActionResult> RegisterUser([FromBody] CreateUserDTO createUser)
         {
             var createUserResponse = await _userRepository.RegisterUser(createUser);
