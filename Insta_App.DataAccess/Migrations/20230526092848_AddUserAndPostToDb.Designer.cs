@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Insta_App.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230519035858_AddUsersAndPostsToDb")]
-    partial class AddUsersAndPostsToDb
+    [Migration("20230526092848_AddUserAndPostToDb")]
+    partial class AddUserAndPostToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,12 @@ namespace Insta_App.DataAccess.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostId");
 

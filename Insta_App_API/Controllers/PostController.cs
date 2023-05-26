@@ -21,14 +21,15 @@ namespace Insta_App_API.Controllers
             var createPostResponse = await _postRepository.SavePost(createPost);
             return Ok(createPostResponse);
         }
-
+            
         [HttpGet("posts/{userId}")]
         [Authorize]
         public async Task<IActionResult> GetPost(int userId)
         {
-            var posts = await _postRepository.GetPosts(userId);
+            var posts = await _postRepository.GetPostsById(userId);
             return Ok(posts);
         }
+
         [HttpGet("allPosts")]
         [Authorize]
         public IActionResult GetAllPost()

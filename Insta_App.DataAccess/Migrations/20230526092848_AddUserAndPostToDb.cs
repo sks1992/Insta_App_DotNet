@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Insta_App.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUsersAndPostsToDb : Migration
+    public partial class AddUserAndPostToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,6 +18,8 @@ namespace Insta_App.DataAccess.Migrations
                     PostId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false)

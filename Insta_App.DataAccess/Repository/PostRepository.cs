@@ -44,12 +44,20 @@ namespace Insta_App.DataAccess.Repository
             }
 
             var user = _db.User.Where(u => u.UserId == createPost.UserId).FirstOrDefault();
+            if(user == null)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessage = "User Not Exist. Please Enter Correct UserId";
+                return _response;
+            }
 
             var posts = new Posts()
             {
                 PostDescription = createPost.PostDescription,
                 PostImage = uploadedFilePath,
                 UserId = createPost.UserId,
+                UserName =user.UserName,
+                UserImageUrl =user.UserImage,
             };
 
             await _db.Posts.AddAsync(posts);
@@ -59,10 +67,10 @@ namespace Insta_App.DataAccess.Repository
             return _response;
         }
 
-        public async Task<PostResponseDTO> GetPosts(int userId)
+        public async Task<PostResponseDTO> GetPostsById(int userId)
         {
 
-            byte[] imageBytes;
+            byte[] imageBytes;  
             string base64String;
             string base64;
 
@@ -103,13 +111,9 @@ namespace Insta_App.DataAccess.Repository
 
             var posts = new PostResponseDTO()
             {
-                UserId = userId,
                 IsSuccess = true,
                 Posts = postList,
-                UserName = user.UserName,
-                UserProfileImage = user.UserImage
             };
-
             return posts;
         }
 
@@ -126,6 +130,11 @@ namespace Insta_App.DataAccess.Repository
                 base64String = Convert.ToBase64String(imageBytes);
                 base64 = "data:image/jpg;base64," + base64String;
                 post.PostImage = base64;
+
+                imageBytes = File.ReadAllBytes(post.UserImageUrl!);
+                base64String = Convert.ToBase64String(imageBytes);
+                base64 = "data:image/jpg;base64," + base64String;
+                post.UserImageUrl = base64;
             }
             return postList;
         }

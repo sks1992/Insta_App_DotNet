@@ -42,6 +42,12 @@ namespace Insta_App.DataAccess.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PostId");
 
                     b.ToTable("Posts");

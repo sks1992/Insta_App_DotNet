@@ -6,7 +6,8 @@ namespace Insta_App.DataAccess.Repository.IRepository
     public interface IPostRepository
     {
         Task<ApiResponse> SavePost(CreatePostDTO createPost);
-        Task<PostResponseDTO> GetPosts(int userId);
+        Task<PostResponseDTO> GetPostsById(int userId);
         IEnumerable<Posts> GetAllPosts();
     }
 }   
+    
