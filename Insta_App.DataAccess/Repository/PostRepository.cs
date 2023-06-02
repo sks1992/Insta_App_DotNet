@@ -44,7 +44,7 @@ namespace Insta_App.DataAccess.Repository
             }
 
             var user = _db.User.Where(u => u.UserId == createPost.UserId).FirstOrDefault();
-            if(user == null)
+            if (user == null)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessage = "User Not Exist. Please Enter Correct UserId";
@@ -56,8 +56,8 @@ namespace Insta_App.DataAccess.Repository
                 PostDescription = createPost.PostDescription,
                 PostImage = uploadedFilePath,
                 UserId = createPost.UserId,
-                UserName =user.UserName,
-                UserImageUrl =user.UserImage,
+                UserName = user.UserName,
+                UserImageUrl = user.UserImage,
             };
 
             await _db.Posts.AddAsync(posts);
@@ -70,7 +70,7 @@ namespace Insta_App.DataAccess.Repository
         public async Task<PostResponseDTO> GetPostsById(int userId)
         {
 
-            byte[] imageBytes;  
+            byte[] imageBytes;
             string base64String;
             string base64;
 
@@ -123,7 +123,8 @@ namespace Insta_App.DataAccess.Repository
             string base64String;
             string base64;
 
-            var postList =_db.Posts.AsEnumerable(); 
+            var postList = _db.Posts.AsEnumerable();
+
             foreach (var post in postList)
             {
                 imageBytes = File.ReadAllBytes(post.PostImage!);
@@ -137,6 +138,70 @@ namespace Insta_App.DataAccess.Repository
                 post.UserImageUrl = base64;
             }
             return postList;
+        }
+
+        public async Task<LikePostResponseDTO> LikePost(LikePostDTO likePost)
+        {
+            if (likePost.LikeUserKey == 0 || likePost.PostKey == 0 || likePost.PostUserKey ==0)
+            {
+                var response = new LikePostResponseDTO()
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Please Fill Correct values, Either LikeUserId or PostUserId or PostId Is incorrect",
+                    likePost = likePost.IsLiked
+                };
+
+                return response;
+            }
+
+            var likeData = await _db.Likes.Where(u => u.LikeUserKey == likePost.LikeUserKey && u.PostKey == likePost.PostKey).FirstOrDefaultAsync();
+
+            if (likeData == null)
+            {
+                var like = new Likes()
+                {
+                    PostKey = likePost.PostKey,
+                    LikeUserKey = likePost.LikeUserKey,
+                    IsLiked = likePost.IsLiked,
+                };
+
+                await _db.Likes.AddAsync(like);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                likeData.LikeUserKey = likePost.LikeUserKey;
+                likeData.PostKey = likePost.PostKey;
+                likeData.IsLiked = likePost.IsLiked;
+
+                _db.Likes.Update(likeData);
+                await _db.SaveChangesAsync();
+            }
+
+            var post = await _db.Posts.Where(u => u.PostId == likePost.PostKey).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                var response = new LikePostResponseDTO()
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "No Post Found,Please Enter Correct PostID",
+                    likePost = likePost.IsLiked
+                };
+                return response;
+            }
+
+            var likeCount = await _db.Likes.Where(u => u.PostKey == likePost.PostKey && likePost.IsLiked == true).ToListAsync();
+
+            post.PostLikes = likeCount.Count();
+            await _db.SaveChangesAsync();
+
+            var response1 = new LikePostResponseDTO()
+            {
+                IsSuccess = true,
+                ErrorMessage = "",
+                likePost = likePost.IsLiked
+            };
+            return response1;
         }
     }
 }

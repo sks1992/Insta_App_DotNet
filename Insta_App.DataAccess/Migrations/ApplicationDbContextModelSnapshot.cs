@@ -22,6 +22,31 @@ namespace Insta_App.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Insta_App.Models.Likes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsLiked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LikeUserKey")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostKey")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostUserKey")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("Insta_App.Models.Posts", b =>
                 {
                     b.Property<int>("PostId")
@@ -35,6 +60,9 @@ namespace Insta_App.DataAccess.Migrations
 
                     b.Property<string>("PostImage")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostLikes")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime2");

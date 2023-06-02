@@ -37,5 +37,13 @@ namespace Insta_App_API.Controllers
             var posts = _postRepository.GetAllPosts();
             return Ok(posts);
         }
+
+        [HttpPost("likes")]
+        [Authorize]
+        public async Task<IActionResult> LikePosts([FromBody] LikePostDTO likePost)
+        {
+            var likePosts = await _postRepository.LikePost(likePost);
+            return Ok(likePosts);   
+        }
     }
 }

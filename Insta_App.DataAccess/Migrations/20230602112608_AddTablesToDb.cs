@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Insta_App.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUserAndPostToDb : Migration
+    public partial class AddTablesToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LikeUserKey = table.Column<int>(type: "int", nullable: false),
+                    PostUserKey = table.Column<int>(type: "int", nullable: false),
+                    PostKey = table.Column<int>(type: "int", nullable: false),
+                    IsLiked = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
@@ -22,7 +38,8 @@ namespace Insta_App.DataAccess.Migrations
                     UserImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PostLikes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +68,9 @@ namespace Insta_App.DataAccess.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Likes");
+
             migrationBuilder.DropTable(
                 name: "Posts");
 
