@@ -163,6 +163,7 @@ namespace Insta_App.DataAccess.Repository
                     PostKey = likePost.PostKey,
                     LikeUserKey = likePost.LikeUserKey,
                     IsLiked = likePost.IsLiked,
+                    PostUserKey = likePost.PostUserKey,
                 };
 
                 await _db.Likes.AddAsync(like);
@@ -173,6 +174,7 @@ namespace Insta_App.DataAccess.Repository
                 likeData.LikeUserKey = likePost.LikeUserKey;
                 likeData.PostKey = likePost.PostKey;
                 likeData.IsLiked = likePost.IsLiked;
+                likeData.PostUserKey = likePost.PostUserKey;
 
                 _db.Likes.Update(likeData);
                 await _db.SaveChangesAsync();
